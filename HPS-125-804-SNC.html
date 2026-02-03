@@ -148,19 +148,21 @@
         </footer>
     </div>
 
-    <script>
-        // Função para encerrar sessão e limpar vestígios
-        function logoutSoberano() {
-            if(confirm("Deseja encerrar o acesso ao seu Dossiê Privado?")) {
-                localStorage.clear();
-                window.location.href = "login114.html"; // Redireciona para o portal de entrada
-            }
+<script>
+    // Função para encerrar sessão e retornar ao Portal Global
+    function logoutSoberano() {
+        if(confirm("Deseja encerrar o acesso ao seu Dossiê Privado?")) {
+            // Limpa os dados de rastro do navegador
+            localStorage.clear();
+            // Redireciona para o endereço oficial
+            window.location.href = "https://iartium.com/global";
         }
+    }
 
-        // Atualiza a data no documento
-        const dataAtual = new Date();
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        document.getElementById('print-date').innerText = dataAtual.toLocaleDateString('en-US', options).toUpperCase();
-    </script>
+    // Atualiza a data no documento automaticamente
+    const dataAtual = new Date();
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    document.getElementById('print-date').innerText = dataAtual.toLocaleDateString('en-US', options).toUpperCase();
+</script>
 </body>
 </html>
