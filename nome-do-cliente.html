@@ -9,13 +9,13 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&family=Roboto+Mono:wght@400&display=swap');
         
         body { 
-            background: #F0F4F2; /* Tom Pérola Esverdeado */
-            color: #1A3C2F; /* Grafite Verde Escuro */
+            background: #F0F4F2; 
+            color: #1A3C2F; 
             font-family: 'Inter', sans-serif; 
             min-height: 100vh;
         }
 
-        .gold-text { color: #B08D3E; } /* Ouro envelhecido mais suave para o fundo claro */
+        .gold-text { color: #B08D3E; }
         
         .glass-panel { 
             background: rgba(255, 255, 255, 0.5); 
@@ -34,11 +34,36 @@
             transition: height 1s ease-in-out;
             border-radius: 4px 4px 0 0;
         }
+
+        /* Estilo para ocultar botões na impressão do PDF */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; padding: 0; }
+            .glass-panel { border: 1px solid #eee; backdrop-filter: none; }
+        }
+
+        .btn-action {
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+        }
     </style>
 </head>
 <body class="p-6 md:p-12">
 
     <div class="max-w-6xl mx-auto space-y-8">
+        
+        <div class="flex justify-end gap-4 no-print">
+            <button onclick="window.print()" class="btn-action flex items-center gap-2 px-4 py-2 bg-white border border-[#4A7C59]/20 rounded-full hover:bg-[#4A7C59]/5">
+                <span>📑 Salvar PDF</span>
+            </button>
+            <button onclick="logoutSoberano()" class="btn-action flex items-center gap-2 px-4 py-2 bg-[#1A3C2F] text-white rounded-full hover:bg-red-900 transition-colors">
+                <span>Sair com Segurança</span>
+            </button>
+        </div>
+
         <header class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-[#4A7C59]/20 pb-8 space-y-4">
             <div>
                 <span class="text-[10px] uppercase tracking-[0.5em] text-[#4A7C59] font-bold">Private Banking Custody</span>
@@ -47,7 +72,7 @@
             <div class="text-right font-mono text-[10px] text-[#4A7C59] space-y-1">
                 <div class="status-badge px-3 py-1 rounded-full inline-block font-bold mb-2">STATUS: CUSTÓDIA ATIVA</div>
                 <div class="opacity-70">REGISTRO: HPS-[ID-UNICO]-NY</div>
-                <div class="opacity-70">DATA DE EMISSÃO: 03 FEB 2026</div>
+                <div class="opacity-70 font-bold" id="print-date">03 FEB 2026</div>
             </div>
         </header>
 
@@ -80,7 +105,6 @@
             <div class="md:col-span-2 glass-panel p-10 shadow-sm flex flex-col justify-between">
                 <div>
                     <h3 class="font-mono text-[10px] uppercase mb-10 text-[#4A7C59] tracking-widest">// Alocação Estratégica em Nodes</h3>
-                    
                     <div class="flex items-end justify-around h-64 border-b border-[#4A7C59]/10 pb-2 gap-4">
                         <div class="flex flex-col items-center w-full">
                             <div class="chart-bar bg-[#1A3C2F] w-full" style="height: 75%"></div>
@@ -99,11 +123,11 @@
 
                 <div class="mt-8 flex justify-between items-center text-[10px]">
                     <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse no-print"></div>
                         <span class="font-bold opacity-70">SINCRONIA TEMPO REAL</span>
                     </div>
-                    <div class="opacity-50 italic">
-                        Última verificação de ativos: agora mesmo.
+                    <div class="opacity-50 italic text-right">
+                        Confirmação de Ativos em Conformidade com Normas de Governança.
                     </div>
                 </div>
             </div>
@@ -116,7 +140,7 @@
                     Nenhuma informação contida aqui é gerada por algoritmos de automação em massa. 
                     Governança 100% Humana e personalizada sob protocolo ESG.
                 </p>
-                <div class="flex gap-4">
+                <div class="flex gap-4 no-print">
                     <img src="https://cdn-icons-png.flaticon.com/512/3917/3917034.png" class="h-6 opacity-20" alt="Eco">
                     <img src="https://cdn-icons-png.flaticon.com/512/2103/2103442.png" class="h-6 opacity-20" alt="Governance">
                 </div>
@@ -124,5 +148,21 @@
         </footer>
     </div>
 
+<script>
+    // Função para encerrar sessão e retornar ao Portal Global
+    function logoutSoberano() {
+        if(confirm("Deseja encerrar o acesso ao seu Dossiê Privado?")) {
+            // Limpa os dados de rastro do navegador
+            localStorage.clear();
+            // Redireciona para o endereço oficial
+            window.location.href = "https://iartium.com/global";
+        }
+    }
+
+    // Atualiza a data no documento automaticamente
+    const dataAtual = new Date();
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    document.getElementById('print-date').innerText = dataAtual.toLocaleDateString('en-US', options).toUpperCase();
+</script>
 </body>
 </html>
