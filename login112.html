@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPS | Configuração de Perfil Soberano</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
+        
+        body {
+            background: radial-gradient(circle at center, #F0F4F2 0%, #DDE5E0 100%);
+            color: #1A3C2F; font-family: 'Inter', sans-serif;
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 40px;
+            width: 100%; max-width: 600px;
+            padding: 50px;
+        }
+
+        .input-pearl {
+            background: #F9FBF9 !important;
+            border: 1px solid #E2E8E5 !important;
+            border-radius: 12px;
+            padding: 16px;
+            width: 100%;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-pearl:focus { border-color: #D4AF37; box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); }
+
+        .btn-next {
+            background: #1A3C2F; color: white;
+            padding: 16px 32px; border-radius: 12px;
+            font-weight: bold; font-size: 12px; letter-spacing: 0.2em;
+            text-transform: uppercase; width: 100%;
+            margin-top: 20px; transition: all 0.4s;
+        }
+
+        .btn-next:hover { background: #2D5A44; transform: translateY(-2px); }
+
+        .step-indicator { display: flex; gap: 10px; justify-content: center; margin-bottom: 30px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #E2E8E5; transition: 0.3s; }
+        .dot.active { background: #D4AF37; width: 20px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="step-card shadow-2xl">
+        <div class="step-indicator">
+            <div id="dot1" class="dot active"></div>
+            <div id="dot2" class="dot"></div>
+            <div id="dot3" class="dot"></div>
+        </div>
+
+        <div id="step1">
+            <h2 class="font-playfair text-2xl mb-2 text-center">Identidade Soberana</h2>
+            <p class="text-xs text-center opacity-60 mb-8">Inicie a custódia de seus dados globais.</p>
+            
+            <div class="space-y-4">
+                <input type="text" id="fullName" class="input-pearl" placeholder="Nome Completo">
+                <input type="text" id="cpf" class="input-pearl" placeholder="CPF / Tax ID">
+                <input type="date" id="birthDate" class="input-pearl" title="Data de Nascimento">
+                <button onclick="saveAndNext(2)" class="btn-next">Continuar</button>
+            </div>
+        </div>
+
+        <div id="step2" class="hidden">
+            <h2 class="font-playfair text-2xl mb-2 text-center">Aporte e Liquidez</h2>
+            <p class="text-xs text-center opacity-60 mb-8">Defina os parâmetros de seus ativos.</p>
+            
+            <div class="space-y-4">
+                <select id="incomeSource" class="input-pearl">
+                    <option value="">Origem Principal de Renda</option>
+                    <option value="agro">Agronegócio</option>
+                    <option value="invest">Investimentos / Dividendos</option>
+                    <option value="corp">Executivo / Empresarial</option>
+                </select>
+                <input type="number" id="initialDeposit" class="input-pearl" placeholder="Aporte Inicial Estimado (R$)">
+                <select id="riskProfile" class="input-pearl">
+                    <option value="">Perfil de Risco</option>
+                    <option value="cons">Conservador (Proteção)</option>
+                    <option value="mod">Moderado (Equilíbrio)</option>
+                    <option value="aggr">Arrojado (Crescimento NY)</option>
+                </select>
+                <button onclick="saveAndNext(3)" class="btn-next">Finalizar Configuração</button>
+            </div>
+        </div>
+
+        <div id="step3" class="hidden text-center">
+            <div class="text-5xl mb-6">🏛️</div>
+            <h2 class="font-playfair text-2xl mb-2">Dados Sincronizados</h2>
+            <p class="text-sm opacity-60 mb-8">Seu perfil foi processado pelos nós NY, SW e BR.</p>
+            <button onclick="goToSecretKey()" class="btn-next">Gerar Chaves de Acesso</button>
+        </div>
+    </div>
+
+<script>
+    function saveAndNext(step) {
+        // Transporte de Dados do Passo 1
+        if (step === 2) {
+            const name = document.getElementById('fullName').value;
+            if(name) localStorage.setItem('userName', name);
+        }
+        
+        // Transporte de Dados do Passo 2
+        if (step === 3) {
+            const deposit = document.getElementById('initialDeposit').value;
+            if(deposit) localStorage.setItem('userDeposit', deposit);
+        }
+
+        nextStep(step);
+    }
+
+    function nextStep(step) {
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step3').classList.add('hidden');
+        document.getElementById('step' + step).classList.remove('hidden');
+        
+        document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+        const activeDot = document.getElementById('dot' + step);
+        if (activeDot) activeDot.classList.add('active');
+    }
+
+    function goToSecretKey() {
+        console.log("Protocolo de transporte finalizado. Redirecionando...");
+        // Força a navegação
+        window.location.href = "secretkey113.html"; 
+    }
+</script>
+</body>
+</html>
