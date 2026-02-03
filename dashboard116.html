@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IArtium | Global Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&family=Roboto+Mono:wght@400;700&display=swap');
+        
+        body {
+            background: #F0F4F2; /* Pérola Esverdeado */
+            color: #1A3C2F; /* Grafite Verde Escuro */
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh; padding: 20px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(74, 124, 89, 0.15);
+            border-radius: 32px;
+        }
+
+        .node-pulse {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #4A7C59; 
+            box-shadow: 0 0 8px rgba(74, 124, 89, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+
+        .gold-text { color: #B08D3E; }
+        .font-mono { font-family: 'Roboto Mono', monospace; }
+        
+        .btn-exit {
+            background: rgba(220, 38, 38, 0.05);
+            color: #B91C1C;
+            border: 1px solid rgba(220, 38, 38, 0.1);
+            transition: all 0.3s;
+        }
+        .btn-exit:hover { background: rgba(220, 38, 38, 0.1); transform: translateY(-1px); }
+
+        .data-box {
+            background: rgba(74, 124, 89, 0.05);
+            border: 1px solid rgba(74, 124, 89, 0.1);
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center">
+
+    <div class="max-w-5xl w-full space-y-6">
+        <header class="flex justify-between items-center p-6 glass-card shadow-sm">
+            <div>
+                <span class="text-[9px] tracking-[0.4em] opacity-60 uppercase font-bold text-[#4A7C59]">Terminal de Governança</span>
+                <h1 class="text-xl font-playfair gold-text">Holding Paulo Salomão</h1>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="text-right hidden md:block">
+                    <div class="text-[10px] font-mono opacity-60" id="current-date">03 FEB 2026</div>
+                    <div class="text-[9px] text-[#4A7C59] font-mono uppercase font-bold">Encrypted Connection</div>
+                </div>
+                <button onclick="logout()" class="btn-exit px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                    Sair da Conta
+                </button>
+            </div>
+        </header>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 p-10 glass-card shadow-sm border-t-4 border-t-[#B08D3E]">
+                <h2 class="text-[10px] font-mono mb-8 opacity-50 uppercase tracking-[0.2em]">// Identidade Confirmada</h2>
+                <div class="space-y-4">
+                    <p class="text-4xl font-playfair">Bem-vindo, <span id="user-name-display" class="gold-text">Soberano</span>.</p>
+                    <p class="text-sm opacity-70 max-w-md leading-relaxed">Seu protocolo de custódia foi validado. Os ativos encontram-se em ambiente de sincronia internacional entre os nós da Holding.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
+                    <div class="p-5 data-box">
+                        <span class="text-[9px] block opacity-50 uppercase font-bold mb-1">Aporte de Ingresso</span>
+                        <span class="text-xl font-mono font-bold" id="user-deposit-display">R$ 0,00</span>
+                    </div>
+                    <div class="p-5 data-box">
+                        <span class="text-[9px] block opacity-50 uppercase font-bold mb-1">Status SNC-Key</span>
+                        <span class="text-sm font-mono text-[#4A7C59] font-bold" id="user-key-display">---</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-10 glass-card shadow-sm flex flex-col justify-between">
+                <h2 class="text-[10px] font-mono mb-8 opacity-50 uppercase tracking-[0.2em]">// Atividade Global</h2>
+                <div class="space-y-6">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold opacity-70 tracking-wide">NEW YORK / LQD</span>
+                        <div class="flex items-center gap-2"><span class="text-[9px] font-bold text-[#4A7C59]">SYNC</span><div class="node-pulse"></div></div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold opacity-70 tracking-wide">SWITZERLAND / TRT</span>
+                        <div class="flex items-center gap-2"><span class="text-[9px] font-bold text-[#4A7C59]">SYNC</span><div class="node-pulse"></div></div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-bold opacity-70 tracking-wide">BRAZIL / RBA</span>
+                        <div class="flex items-center gap-2"><span class="text-[9px] font-bold text-[#4A7C59]">SYNC</span><div class="node-pulse"></div></div>
+                    </div>
+                </div>
+                <div class="mt-10 p-4 bg-[#B08D3E]/10 rounded-xl text-center border border-[#B08D3E]/20">
+                    <span class="text-[10px] font-mono gold-text font-bold uppercase tracking-widest">Sincronia Soberana</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button class="p-8 glass-card hover:bg-white/60 transition-all text-left group shadow-sm">
+                <span class="text-xl block mb-1">🏛️</span>
+                <span class="text-sm font-playfair block mb-1">Sovereign Storage</span>
+                <span class="text-[9px] opacity-50 uppercase font-bold group-hover:text-[#B08D3E]">Custódia Suíça</span>
+            </button>
+            <button class="p-8 glass-card hover:bg-white/60 transition-all text-left group shadow-sm">
+                <span class="text-xl block mb-1">🌍</span>
+                <span class="text-sm font-playfair block mb-1">Terminal RBA</span>
+                <span class="text-[9px] opacity-50 uppercase font-bold group-hover:text-[#B08D3E]">Impacto & Governança</span>
+            </button>
+            <button onclick="alert('Dossiê técnico enviado para sua central de custódia.')" class="p-8 glass-card border-[#B08D3E]/40 hover:bg-[#B08D3E]/5 transition-all text-left border shadow-sm">
+                <span class="text-xl block mb-1">📑</span>
+                <span class="text-sm font-playfair block mb-1 gold-text">Download Briefing</span>
+                <span class="text-[9px] opacity-50 uppercase font-bold">Dossiê Gerado</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const nome = localStorage.getItem('userName') || "Soberano";
+            const valor = localStorage.getItem('userDeposit') || "0";
+            const key = localStorage.getItem('finalKey') || "HPS-GLOBAL-SNC";
+
+            document.getElementById('user-name-display').innerText = nome;
+            
+            const valorFormatado = new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(valor);
+            
+            document.getElementById('user-deposit-display').innerText = valorFormatado;
+            document.getElementById('user-key-display').innerText = key;
+
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', options).toUpperCase();
+        };
+
+        function logout() {
+            if(confirm("Deseja encerrar sua sessão de forma segura?")) {
+                localStorage.clear();
+                window.location.href = "https://iartium.com/global/";
+            }
+        }
+    </script>
+</body>
+</html>
