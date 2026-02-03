@@ -65,9 +65,9 @@
             
             <div class="space-y-4">
                 <input type="text" id="fullName" class="input-pearl" placeholder="Nome Completo">
+                <input type="email" id="userEmail" class="input-pearl" placeholder="E-mail Institucional">
                 <input type="text" id="cpf" class="input-pearl" placeholder="CPF / Tax ID">
-                <input type="date" id="birthDate" class="input-pearl" title="Data de Nascimento">
-                <button onclick="nextStep(2)" class="btn-next">Continuar</button>
+                <button onclick="saveStep1()" class="btn-next">Continuar</button>
             </div>
         </div>
 
@@ -78,18 +78,18 @@
             <div class="space-y-4">
                 <select id="incomeSource" class="input-pearl">
                     <option value="">Origem Principal de Renda</option>
-                    <option value="agro">Agronegócio</option>
-                    <option value="invest">Investimentos / Dividendos</option>
-                    <option value="corp">Executivo / Empresarial</option>
+                    <option value="Agronegócio">Agronegócio</option>
+                    <option value="Investimentos">Investimentos / Dividendos</option>
+                    <option value="Executivo">Executivo / Empresarial</option>
                 </select>
                 <input type="number" id="initialDeposit" class="input-pearl" placeholder="Aporte Inicial Estimado (R$)">
                 <select id="riskProfile" class="input-pearl">
                     <option value="">Perfil de Risco</option>
-                    <option value="cons">Conservador (Proteção)</option>
-                    <option value="mod">Moderado (Equilíbrio)</option>
-                    <option value="aggr">Arrojado (Crescimento NY)</option>
+                    <option value="Conservador">Conservador (Proteção)</option>
+                    <option value="Moderado">Moderado (Equilíbrio)</option>
+                    <option value="Arrojado">Arrojado (Crescimento NY)</option>
                 </select>
-                <button onclick="nextStep(3)" class="btn-next">Finalizar Configuração</button>
+                <button onclick="saveStep2()" class="btn-next">Finalizar Configuração</button>
             </div>
         </div>
 
@@ -102,29 +102,52 @@
     </div>
 
 <script>
+    // Função para transição visual
     function nextStep(step) {
-        // Esconde todos os containers de passos
         document.getElementById('step1').classList.add('hidden');
         document.getElementById('step2').classList.add('hidden');
         document.getElementById('step3').classList.add('hidden');
-        
-        // Mostra o passo atual solicitado
         document.getElementById('step' + step).classList.remove('hidden');
         
-        // Atualiza a navegação visual (pontos/dots)
         document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
         const activeDot = document.getElementById('dot' + step);
-        if (activeDot) {
-            activeDot.classList.add('active');
+        if (activeDot) activeDot.classList.add('active');
+    }
+
+    // Salva Identidade
+    function saveStep1() {
+        const name = document.getElementById('fullName').value;
+        const email = document.getElementById('userEmail').value;
+        
+        if(name.length < 3 || !email.includes('@')) {
+            alert("Por favor, preencha os dados de identidade corretamente.");
+            return;
         }
+
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userEmail', email);
+        nextStep(2);
+    }
+
+    // Salva Perfil Financeiro
+    function saveStep2() {
+        const source = document.getElementById('incomeSource').value;
+        const deposit = document.getElementById('initialDeposit').value;
+        const risk = document.getElementById('riskProfile').value;
+
+        if(!source || !deposit) {
+            alert("Parâmetros financeiros incompletos.");
+            return;
+        }
+
+        localStorage.setItem('userSource', source);
+        localStorage.setItem('userDeposit', deposit);
+        localStorage.setItem('userRisk', risk);
+        nextStep(3);
     }
 
     function goToSecretKey() {
-        // Notificação de segurança antes do redirecionamento
-        console.log("Iniciando protocolo de acesso seguro...");
-        
-        // O Redirecionamento Real:
-        // Isso levará o usuário para a página de chaves que criamos.
+        console.log("Protocolo de Memória Ativa: OK");
         window.location.href = "secretkey113.html"; 
     }
 </script>
