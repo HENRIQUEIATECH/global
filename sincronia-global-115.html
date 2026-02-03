@@ -65,7 +65,6 @@
             <div id="progress-bar" class="h-full bg-[#D4AF37] transition-all duration-100" style="width: 0%"></div>
         </div>
     </div>
-
 <script>
     const messages = [
         "Conectando ao Node New York...",
@@ -76,28 +75,44 @@
     ];
 
     window.onload = function() {
-        const nome = localStorage.getItem('userName') || "Soberano";
-        const email = localStorage.getItem('userEmail'); 
-        const valor = localStorage.getItem('userDeposit') || "0";
-        const key = localStorage.getItem('finalKey') || "HPS-GLOBAL-SNC";
+        // 1. RECUPERAÇÃO DE DADOS (Usando Session para maior segurança)
+        const nome = sessionStorage.getItem('userName') || "Soberano";
+        const email = sessionStorage.getItem('userEmail'); 
+        const valor = sessionStorage.getItem('userDeposit') || "0";
+        const key = sessionStorage.getItem('finalKey') || "HPS-GLOBAL-SNC";
 
         const valorFormatado = new Intl.NumberFormat('pt-BR', {
             style: 'currency', currency: 'BRL'
         }).format(valor);
 
-        // 1. DISPARO DO E-MAIL (Inicia imediatamente em background)
+        // 2. DISPARO DO E-MAIL VIA EMAILJS
         if (email && email.includes('@')) {
             emailjs.init("SUA_PUBLIC_KEY_AQUI"); 
-            const templateParams = {
+
+            // Parâmetros para o Cliente (Boas-vindas)
+            const paramsCliente = {
                 to_email: email,
                 user_name: nome,
                 user_key: key,
                 user_deposit: valorFormatado
             };
-            emailjs.send("SEU_SERVICE_ID", "SEU_TEMPLATE_ID", templateParams);
+
+            // Parâmetros para o Seu Departamento de Inclusão (Dossiê Técnico)
+            const paramsInterno = {
+                to_email: "seu-email-de-controle@hpsholding.com", // Coloque seu e-mail aqui
+                user_name: nome,
+                user_email: email,
+                user_key: key,
+                user_deposit: valorFormatado,
+                subject: `[NOVO DOSSIÊ] - Inclusão de ${nome}`
+            };
+
+            // Disparo duplo
+            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_CLIENTE_ID", paramsCliente);
+            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_INTERNO_ID", paramsInterno);
         }
 
-        // 2. SIMULAÇÃO DE CARREGAMENTO VISUAL
+        // 3. ANIMAÇÃO VISUAL DE CARREGAMENTO
         let progress = 0;
         let msgIndex = 0;
         const statusDisplay = document.getElementById('status-display');
@@ -105,10 +120,11 @@
 
         const interval = setInterval(() => {
             progress += 2;
-            progressBar.style.width = progress + "%";
+            if (progressBar) progressBar.style.width = progress + "%";
 
+            // Troca de mensagens a cada 20%
             if (progress % 20 === 0 && msgIndex < messages.length) {
-                statusDisplay.innerText = messages[msgIndex];
+                if (statusDisplay) statusDisplay.innerText = messages[msgIndex];
                 msgIndex++;
             }
 
@@ -119,7 +135,7 @@
                     window.location.href = "dashboard116.html"; 
                 }, 500);
             }
-        }, 100); // 100ms * 50 passos = 5 segundos de loading
+        }, 100); // 5 segundos de carregamento total
     };
 </script>
 </body>
