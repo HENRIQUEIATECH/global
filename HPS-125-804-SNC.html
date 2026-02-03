@@ -149,20 +149,25 @@
     </div>
 
 <script>
-    // Função para encerrar sessão e retornar ao Portal Global
     function logoutSoberano() {
-        if(confirm("Deseja encerrar o acesso ao seu Dossiê Privado?")) {
-            // Limpa os dados de rastro do navegador
-            localStorage.clear();
-            // Redireciona para o endereço oficial
-            window.location.href = "https://iartium.com/global";
-        }
-    }
+    if(confirm("Deseja encerrar o acesso ao seu Dossiê Privado?")) {
+        // 1. Limpa todos os dados do LocalStorage
+        localStorage.clear();
+        sessionStorage.clear();
 
-    // Atualiza a data no documento automaticamente
-    const dataAtual = new Date();
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    document.getElementById('print-date').innerText = dataAtual.toLocaleDateString('en-US', options).toUpperCase();
+        // 2. Limpa Cookies (força a expiração de todos os cookies visíveis)
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i];
+            const eqPos = cookie.indexOf("=");
+            const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+        }
+
+        // 3. Redireciona e impede que o usuário volte com o botão "Voltar" do navegador
+        window.location.replace("https://iartium.com/global");
+    }
+}
 </script>
 </body>
 </html>
