@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HPS Holding | Global Gateway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap');
+        
+        body { 
+            background-color: #05070A; 
+            color: white; 
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Efeito de profundidade nas colunas */
+        .node-column {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(100%) brightness(50%);
+            position: relative;
+        }
+
+        .node-column:hover {
+            filter: grayscale(0%) brightness(100%);
+            flex-grow: 1.5;
+        }
+
+        /* Overlay de gradiente para legibilidade */
+        .overlay {
+            background: linear-gradient(to top, rgba(5,7,10,0.9) 0%, transparent 100%);
+        }
+
+        /* Linha de pulso tecnológico (IArtium) */
+        .tech-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #046319, transparent);
+            width: 100%;
+            position: absolute;
+            top: 50%;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .font-playfair { font-family: 'Playfair Display', serif; }
+    </style>
+</head>
+<body>
+
+    <div class="absolute top-12 left-0 right-0 z-50 flex flex-col items-center">
+        <span class="text-[10px] tracking-[0.8em] uppercase opacity-50 mb-2">Holding Paulo Salomão</span>
+        <h1 class="text-3xl font-playfair tracking-tighter">GLOBAL ASSET MANAGEMENT</h1>
+        <div class="mt-4 flex items-center space-x-2 text-[8px] tracking-[0.3em] text-gray-400 uppercase">
+            <span>Powered by</span>
+            <span class="text-white font-black">IArtium High Tech</span>
+        </div>
+    </div>
+
+    <div class="flex h-screen w-full">
+        
+        <a href="https://iartium.com/ny" class="node-column group flex-1 flex items-end p-12 border-r border-white/5 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516893842880-5d8aada7ac05?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center"></div>
+            <div class="overlay absolute inset-0"></div>
+            <div class="tech-line"></div>
+            <div class="relative z-10">
+                <span class="text-xs font-bold tracking-[0.4em] text-blue-400 mb-2 block uppercase">Market Node</span>
+                <h2 class="text-5xl font-playfair mb-4 group-hover:translate-x-2 transition-transform">New York</h2>
+                <p class="text-sm text-gray-400 max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500">Liquidez instantânea e acesso direto a Wall Street através do motor Java HPS.</p>
+            </div>
+        </a>
+
+        <a href="https://iartium.com/ch" class="node-column group flex-1 flex items-end p-12 border-r border-white/5 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516490701444-1daf45984537?q=80&w=2127&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center"></div>
+            <div class="overlay absolute inset-0"></div>
+            <div class="tech-line" style="animation-delay: 1.5s;"></div>
+            <div class="relative z-10">
+                <span class="text-xs font-bold tracking-[0.4em] text-gray-400 mb-2 block uppercase">Custody Node</span>
+                <h2 class="text-5xl font-playfair mb-4 group-hover:translate-x-2 transition-transform">Switzerland</h2>
+                <p class="text-sm text-gray-400 max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500">Soberania absoluta e custódia física de ouro nos Alpes com neutralidade garantida.</p>
+            </div>
+        </a>
+
+        <a href="https://iartium.com/br" class="node-column group flex-1 flex items-end p-12 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516306580123-e6e52b1b7b5f?q=80&w=2126&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center"></div>
+            <div class="overlay absolute inset-0"></div>
+            <div class="tech-line" style="animation-delay: 3s;"></div>
+            <div class="relative z-10">
+                <span class="text-xs font-bold tracking-[0.4em] text-green-500 mb-2 block uppercase">Asset Node</span>
+                <h2 class="text-5xl font-playfair mb-4 group-hover:translate-x-2 transition-transform">Brazil</h2>
+                <p class="text-sm text-gray-400 max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-500">Prosperidade agrícola e ativos reais conectados à infraestrutura global HPS.</p>
+            </div>
+        </a>
+
+    </div>
+
+    <div class="absolute bottom-10 left-0 right-0 z-50 flex justify-between px-12 items-end">
+        <div class="text-[9px] text-gray-500 max-w-xs leading-relaxed">
+            SISTEMA DE CONSENSO TRIPARTITE ATIVO: <br>
+            NY-NODE: ONLINE | CH-NODE: SECURE | BR-NODE: OPTIMIZED
+        </div>
+        <div class="flex space-x-6 text-[10px] tracking-widest text-gray-400">
+            <span class="hover:text-white cursor-pointer">ESG COMPLIANCE</span>
+            <span class="text-white/20">|</span>
+            <span class="hover:text-white cursor-pointer">IARTIUM CORE</span>
+        </div>
+    </div>
+
+</body>
+</html>
