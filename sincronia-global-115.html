@@ -65,79 +65,61 @@
             <div id="progress-bar" class="h-full bg-[#D4AF37] transition-all duration-100" style="width: 0%"></div>
         </div>
     </div>
+
 <script>
     const messages = [
-        "Iniciando Protocolo de Primeiro Acesso...",
-        "Criptografando Identidade Soberana...",
-        "Enviando Dados ao Departamento de Inclusão...",
-        "Sincronizando Nodes Internacionais...",
-        "Finalizando Registro de Custódia..."
+        "Conectando ao Node New York...",
+        "Validando Protocolo Suíça...",
+        "Sincronizando Node Brazil...",
+        "Enviando Credenciais de Acesso...",
+        "Finalizando Handshake Global..."
     ];
 
     window.onload = function() {
-        // 1. CAPTURA TOTAL (Busca em todas as memórias possíveis)
-        const nome = localStorage.getItem('userName') || sessionStorage.getItem('userName') || "Novo Cliente";
-        const email = localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail'); 
-        const valor = localStorage.getItem('userDeposit') || sessionStorage.getItem('userDeposit') || "Sob Consulta";
-        const key = localStorage.getItem('finalKey') || sessionStorage.getItem('finalKey') || "AGUARDANDO-GERACAO";
+        const nome = localStorage.getItem('userName') || "Soberano";
+        const email = localStorage.getItem('userEmail'); 
+        const valor = localStorage.getItem('userDeposit') || "0";
+        const key = localStorage.getItem('finalKey') || "HPS-GLOBAL-SNC";
 
-        // 2. DISPARO DO E-MAIL (Configuração Blindada)
+        const valorFormatado = new Intl.NumberFormat('pt-BR', {
+            style: 'currency', currency: 'BRL'
+        }).format(valor);
+
+        // 1. DISPARO DO E-MAIL (Inicia imediatamente em background)
         if (email && email.includes('@')) {
-            // SUBSTITUA PELOS SEUS DADOS REAIS DO EMAILJS
             emailjs.init("SUA_PUBLIC_KEY_AQUI"); 
-
             const templateParams = {
+                to_email: email,
                 user_name: nome,
-                user_email: email,
                 user_key: key,
-                user_deposit: valor,
-                to_email: email // Envia para o cliente
+                user_deposit: valorFormatado
             };
-
-            const paramsInterno = {
-                ...templateParams,
-                to_email: "paulodallas63@gmail.com" // Seu e-mail de controle
-            };
-
-            // Envio para o Cliente
-            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_CLIENTE_ID", templateParams)
-                .then(() => console.log("E-mail cliente enviado."))
-                .catch(err => console.error("Erro e-mail cliente:", err));
-
-            // Envio para o seu Banco (Dossiê)
-            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_INTERNO_ID", paramsInterno)
-                .then(() => console.log("Dossiê enviado ao banco."))
-                .catch(err => console.error("Erro e-mail interno:", err));
+            emailjs.send("SEU_SERVICE_ID", "SEU_TEMPLATE_ID", templateParams);
         }
 
-        // 3. ANIMAÇÃO E REDIRECIONAMENTO LÓGICO
+        // 2. SIMULAÇÃO DE CARREGAMENTO VISUAL
         let progress = 0;
         let msgIndex = 0;
         const statusDisplay = document.getElementById('status-display');
         const progressBar = document.getElementById('progress-bar');
 
         const interval = setInterval(() => {
-            progress += 1;
-            if (progressBar) progressBar.style.width = progress + "%";
+            progress += 2;
+            progressBar.style.width = progress + "%";
 
             if (progress % 20 === 0 && msgIndex < messages.length) {
-                if (statusDisplay) statusDisplay.innerText = messages[msgIndex];
+                statusDisplay.innerText = messages[msgIndex];
                 msgIndex++;
             }
 
             if (progress >= 100) {
                 clearInterval(interval);
-                
-                // --- MUDANÇA NO REDIRECIONAMENTO ---
-                // Como ele não tem a conta .html ainda, enviamos para uma página de sucesso geral
-                alert("SOLICITAÇÃO ENVIADA COM SUCESSO!\n\nSeu Dossiê de Governança está sendo tecido pelo nosso Departamento de Inclusão. Você receberá uma confirmação em seu e-mail em instantes.");
-                
+                // REDIRECIONA PARA A DASHBOARD FINAL (Página 116)
                 setTimeout(() => {
-                    // Redireciona para o portal global enquanto o arquivo dele não é criado
-                    window.location.href = "https://iartium.com/global";
-                }, 1000);
+                    window.location.href = "dashboard116.html"; 
+                }, 500);
             }
-        }, 80); // Velocidade ajustada para 8 segundos de experiência
+        }, 100); // 100ms * 50 passos = 5 segundos de loading
     };
 </script>
 </body>
