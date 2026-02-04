@@ -75,11 +75,11 @@
     ];
 
     window.onload = function() {
-        // 1. RECUPERAÇÃO DE DADOS (Usando Session para maior segurança)
-        const nome = sessionStorage.getItem('userName') || "Soberano";
-        const email = sessionStorage.getItem('userEmail'); 
-        const valor = sessionStorage.getItem('userDeposit') || "0";
-        const key = sessionStorage.getItem('finalKey') || "HPS-GLOBAL-SNC";
+        // 1. RECUPERAÇÃO DE DADOS (Busca tanto em Session quanto em Local)
+        const nome = sessionStorage.getItem('userName') || localStorage.getItem('userName') || "Soberano";
+        const email = sessionStorage.getItem('userEmail') || localStorage.getItem('userEmail'); 
+        const valor = sessionStorage.getItem('userDeposit') || localStorage.getItem('userDeposit') || "0";
+        const key = sessionStorage.getItem('finalKey') || localStorage.getItem('finalKey') || "HPS-GLOBAL-SNC";
 
         const valorFormatado = new Intl.NumberFormat('pt-BR', {
             style: 'currency', currency: 'BRL'
@@ -87,9 +87,9 @@
 
         // 2. DISPARO DO E-MAIL VIA EMAILJS
         if (email && email.includes('@')) {
+            // CERTIFIQUE-SE DE TROCAR ESTES 3 IDs PELOS DO SEU PAINEL EMAILJS
             emailjs.init("SUA_PUBLIC_KEY_AQUI"); 
 
-            // Parâmetros para o Cliente (Boas-vindas)
             const paramsCliente = {
                 to_email: email,
                 user_name: nome,
@@ -97,9 +97,8 @@
                 user_deposit: valorFormatado
             };
 
-            // Parâmetros para o Seu Departamento de Inclusão (Dossiê Técnico)
             const paramsInterno = {
-                to_email: "paulodallas63@gmail.com", // Coloque seu e-mail aqui
+                to_email: "paulodallas63@gmail.com",
                 user_name: nome,
                 user_email: email,
                 user_key: key,
@@ -107,12 +106,17 @@
                 subject: `[NOVO DOSSIÊ] - Inclusão de ${nome}`
             };
 
-            // Disparo duplo
-            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_CLIENTE_ID", paramsCliente);
-            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_INTERNO_ID", paramsInterno);
+            // Envio e Log de Confirmação no Console
+            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_CLIENTE_ID", paramsCliente)
+                .then(() => console.log("Email Cliente: OK"))
+                .catch(err => console.error("Erro Cliente:", err));
+
+            emailjs.send("SEU_SERVICE_ID", "TEMPLATE_INTERNO_ID", paramsInterno)
+                .then(() => console.log("Email Interno: OK"))
+                .catch(err => console.error("Erro Interno:", err));
         }
 
-        // 3. ANIMAÇÃO VISUAL DE CARREGAMENTO
+        // 3. ANIMAÇÃO VISUAL
         let progress = 0;
         let msgIndex = 0;
         const statusDisplay = document.getElementById('status-display');
@@ -122,7 +126,6 @@
             progress += 2;
             if (progressBar) progressBar.style.width = progress + "%";
 
-            // Troca de mensagens a cada 20%
             if (progress % 20 === 0 && msgIndex < messages.length) {
                 if (statusDisplay) statusDisplay.innerText = messages[msgIndex];
                 msgIndex++;
@@ -130,12 +133,12 @@
 
             if (progress >= 100) {
                 clearInterval(interval);
-                // REDIRECIONA PARA A DASHBOARD FINAL (Página 116)
                 setTimeout(() => {
-                    window.location.href = "dashboard116.html"; 
+                    // Redireciona para a página final da chave (estilo .html)
+                    window.location.href = key + ".html"; 
                 }, 500);
             }
-        }, 100); // 5 segundos de carregamento total
+        }, 100); 
     };
 </script>
 </body>
