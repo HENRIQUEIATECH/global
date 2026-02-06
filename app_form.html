@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #0D1A14; color: white; padding: 20px; }
+        input, textarea { 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid #4A7C59; 
+            color: white;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        button {
+            background: #D4AF37;
+            color: #1A3C2F;
+            width: 100%;
+            padding: 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="text-sm gold-text mb-4 opacity-50">HPS ENCRYPTED MAIL</h2>
+    
+    <form action="https://formspree.io/f/seu_id_aqui" method="POST">
+        <label class="text-xs">NOME DO CLIENTE</label>
+        <input type="text" name="name" placeholder="Ex: Alexander Hamilton" required>
+        
+        <label class="text-xs">ASSUNTO (PROTOCOLO)</label>
+        <input type="text" name="subject" placeholder="HPS-V3-SYNC">
+        
+        <label class="text-xs">MENSAGEM / DOSSIÊ</label>
+        <textarea name="message" rows="5" placeholder="Digite os detalhes do aporte..."></textarea>
+        
+        <button type="submit">DISPARAR PARA O TERMINAL</button>
+    </form>
+</body>
+</html>
